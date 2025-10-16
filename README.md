@@ -15,6 +15,8 @@ This script helps system administrators clean up older versions of Microsoft Tea
 - **Logging**: Detailed logging with timestamps
 - **Safety Features**: WhatIf mode for testing, confirmation prompts
 - **Flexible Targeting**: Can target specific users or all users
+- **Web Execution**: Run directly from GitHub without downloading files
+- **ScreenConnect Ready**: One-liner commands for remote management tools
 
 ## Prerequisites
 
@@ -24,7 +26,24 @@ This script helps system administrators clean up older versions of Microsoft Tea
 
 ## Usage
 
-### Basic Usage
+### 🌐 Web Execution (Recommended)
+
+Run directly from GitHub without downloading files:
+
+```powershell
+# Test mode (safe to run)
+iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -WhatIf
+
+# Execute mode (actually removes Teams)
+iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -Force
+
+# Target specific user
+iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -UserProfile "C:\Users\jdoe" -Force
+```
+
+### 📁 Local Usage
+
+If you prefer to download and run locally:
 
 ```powershell
 # Show what would be uninstalled (dry run)
@@ -37,14 +56,23 @@ This script helps system administrators clean up older versions of Microsoft Tea
 .\Uninstall-TeamsVersions.ps1 -Force
 ```
 
-### Targeting Specific Users
+### 🎯 ScreenConnect Integration
+
+Perfect for remote management tools:
 
 ```powershell
-# Target a specific user profile
-.\Uninstall-TeamsVersions.ps1 -UserProfile "C:\Users\jdoe" -WhatIf
+# Copy and paste this into ScreenConnect's PowerShell command
+iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -WhatIf
+```
 
-# Force uninstall from specific user
-.\Uninstall-TeamsVersions.ps1 -UserProfile "C:\Users\jdoe" -Force
+### 📋 Batch File Creation
+
+Create a `.bat` file for easy execution:
+
+```batch
+@echo off
+powershell -ExecutionPolicy Bypass -Command "iex (iwr 'https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1' -UseBasicParsing).Content -Force"
+pause
 ```
 
 ### Custom Logging
@@ -100,22 +128,41 @@ Log files are created in the script directory with format: `TeamsUninstall_YYYYM
 
 ## Examples
 
-### Example 1: Dry Run on All Users
+### 🌐 Web Execution Examples
+
+#### Test Mode (Safe)
+```powershell
+iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -WhatIf
+```
+
+#### Execute Mode
+```powershell
+iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -Force
+```
+
+#### Target Specific User
+```powershell
+iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -UserProfile "C:\Users\jdoe" -Force
+```
+
+### 📁 Local Execution Examples
+
+#### Dry Run on All Users
 ```powershell
 .\Uninstall-TeamsVersions.ps1 -WhatIf
 ```
 
-### Example 2: Force Uninstall All Users
+#### Force Uninstall All Users
 ```powershell
 .\Uninstall-TeamsVersions.ps1 -Force
 ```
 
-### Example 3: Target Specific User
+#### Target Specific User
 ```powershell
 .\Uninstall-TeamsVersions.ps1 -UserProfile "C:\Users\jdoe" -Force
 ```
 
-### Example 4: Custom Log Location
+#### Custom Log Location
 ```powershell
 .\Uninstall-TeamsVersions.ps1 -Force -LogPath "C:\Admin\TeamsCleanup.log"
 ```
@@ -142,8 +189,15 @@ Check the generated log file for:
 - `[WARN]` entries for non-critical issues
 - `[INFO]` entries for successful operations
 
+## Quick Start URLs
+
+- **Web Launcher**: https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1
+- **Main Script**: https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Uninstall-TeamsVersions.ps1
+- **GitHub Repository**: https://github.com/monobrau/teams-uninstaller
+
 ## Version History
 
+- **v2.0**: Added web execution capabilities and ScreenConnect integration
 - **v1.0**: Initial release with basic uninstall functionality
 
 ## Support
