@@ -1,0 +1,50 @@
+# Log files
+*.log
+
+# PowerShell execution policy bypass files
+*.ps1.bak
+
+# Temporary files
+*.tmp
+*.temp
+
+# Windows thumbnail cache
+Thumbs.db
+
+# PowerShell profile
+Microsoft.PowerShell_profile.ps1
+
+# VS Code settings
+.vscode/
+
+# JetBrains IDEs
+.idea/
+
+# Windows
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Archive files
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
