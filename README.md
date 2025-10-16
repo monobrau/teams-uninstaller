@@ -33,13 +33,10 @@ Run directly from GitHub without downloading files:
 
 ```powershell
 # Test mode (safe to run)
-$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -WhatIf
+$url="https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Execute-WhatIf.ps1"; $temp="$env:TEMP\Web-Execute-WhatIf.ps1"; Invoke-WebRequest $url -UseBasicParsing -OutFile $temp; & $temp
 
 # Execute mode (actually removes Teams)
-$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -Force
-
-# Target specific user
-$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -UserProfile "C:\Users\jdoe" -Force
+$url="https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Execute-Force.ps1"; $temp="$env:TEMP\Web-Execute-Force.ps1"; Invoke-WebRequest $url -UseBasicParsing -OutFile $temp; & $temp
 ```
 
 ### 📁 Local Usage
@@ -63,7 +60,7 @@ Perfect for remote management tools:
 
 ```powershell
 # Copy and paste this into ScreenConnect's PowerShell command
-$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -WhatIf
+$url="https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Execute-WhatIf.ps1"; $temp="$env:TEMP\Web-Execute-WhatIf.ps1"; Invoke-WebRequest $url -UseBasicParsing -OutFile $temp; & $temp
 ```
 
 ### 📋 Batch File Creation
@@ -72,7 +69,7 @@ Create a `.bat` file for easy execution:
 
 ```batch
 @echo off
-powershell -ExecutionPolicy Bypass -Command "$script = iwr 'https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1' -UseBasicParsing; iex $script.Content -Force"
+powershell -ExecutionPolicy Bypass -Command "$url='https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Execute-Force.ps1'; $temp='$env:TEMP\Web-Execute-Force.ps1'; Invoke-WebRequest $url -UseBasicParsing -OutFile $temp; & $temp"
 pause
 ```
 
@@ -208,7 +205,8 @@ Check the generated log file for:
 
 ## Quick Start URLs
 
-- **Web Launcher**: https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1
+- **Web Execute (Test)**: https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Execute-WhatIf.ps1
+- **Web Execute (Force)**: https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Execute-Force.ps1
 - **Main Script**: https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Uninstall-TeamsVersions.ps1
 - **GitHub Repository**: https://github.com/monobrau/teams-uninstaller
 
