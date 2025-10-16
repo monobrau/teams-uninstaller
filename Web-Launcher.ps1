@@ -20,15 +20,15 @@
 
 .EXAMPLE
     # Execute directly from web URL
-    iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content
+    $script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing; iex $script.Content
 
 .EXAMPLE
     # Execute with WhatIf mode
-    iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -WhatIf
+    $script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing; iex $script.Content -WhatIf
 
 .EXAMPLE
     # Execute with specific user profile
-    iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -UserProfile "C:\Users\jdoe" -Force
+    $script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing; iex $script.Content -UserProfile "C:\Users\jdoe" -Force
 #>
 
 [CmdletBinding()]

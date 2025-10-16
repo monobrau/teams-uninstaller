@@ -6,17 +6,17 @@ This guide shows how to run the MS Teams Uninstaller directly from GitHub withou
 
 ### Test Mode (WhatIf) - Safe to run
 ```powershell
-iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -WhatIf
+$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -WhatIf
 ```
 
 ### Execute Mode - Actually removes Teams
 ```powershell
-iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -Force
+$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -Force
 ```
 
 ### Target Specific User
 ```powershell
-iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -UserProfile "C:\Users\jdoe" -Force
+$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -UserProfile "C:\Users\jdoe" -Force
 ```
 
 ## How It Works

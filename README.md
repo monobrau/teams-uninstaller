@@ -33,13 +33,13 @@ Run directly from GitHub without downloading files:
 
 ```powershell
 # Test mode (safe to run)
-iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -WhatIf
+$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -WhatIf
 
 # Execute mode (actually removes Teams)
-iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -Force
+$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -Force
 
 # Target specific user
-iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -UserProfile "C:\Users\jdoe" -Force
+$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -UserProfile "C:\Users\jdoe" -Force
 ```
 
 ### 📁 Local Usage
@@ -63,7 +63,7 @@ Perfect for remote management tools:
 
 ```powershell
 # Copy and paste this into ScreenConnect's PowerShell command
-iex (iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1" -UseBasicParsing).Content -WhatIf
+$script = iwr "https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1" -UseBasicParsing; iex $script.Content -WhatIf
 ```
 
 ### 📋 Batch File Creation
@@ -72,7 +72,7 @@ Create a `.bat` file for easy execution:
 
 ```batch
 @echo off
-powershell -ExecutionPolicy Bypass -Command "iex (iwr 'https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Launcher.ps1' -UseBasicParsing).Content -Force"
+powershell -ExecutionPolicy Bypass -Command "$script = iwr 'https://raw.githubusercontent.com/monobrau/teams-uninstaller/main/Web-Runner.ps1' -UseBasicParsing; iex $script.Content -Force"
 pause
 ```
 
