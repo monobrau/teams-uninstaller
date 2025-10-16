@@ -6,7 +6,8 @@
 .DESCRIPTION
     This script can be executed directly from a web URL using PowerShell's Invoke-Expression
     or by downloading and running. It downloads the latest Teams uninstaller from GitHub
-    and executes it with the specified parameters.
+    and executes it with the specified parameters. The uninstaller targets Teams versions
+    older than 1.7x.
 
 .PARAMETER UserProfile
     Target specific user profile (optional)

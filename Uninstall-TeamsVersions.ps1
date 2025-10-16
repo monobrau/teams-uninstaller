@@ -4,7 +4,7 @@
     Uninstalls older versions of Microsoft Teams from user profiles
 
 .DESCRIPTION
-    This script identifies and uninstalls older versions of Microsoft Teams that are installed
+    This script identifies and uninstalls Microsoft Teams versions older than 1.7x that are installed
     in user profiles. It supports both per-user and machine-wide installations.
 
 .PARAMETER UserProfile
@@ -21,15 +21,15 @@
 
 .EXAMPLE
     .\Uninstall-TeamsVersions.ps1 -WhatIf
-    Shows what would be uninstalled without actually doing it.
+    Shows what older Teams versions would be uninstalled without actually doing it.
 
 .EXAMPLE
     .\Uninstall-TeamsVersions.ps1 -UserProfile "C:\Users\jdoe" -Force
-    Uninstalls Teams from specific user profile without prompting.
+    Uninstalls older Teams versions from specific user profile without prompting.
 
 .EXAMPLE
     .\Uninstall-TeamsVersions.ps1 -Force
-    Uninstalls Teams from all user profiles without prompting.
+    Uninstalls older Teams versions from all user profiles without prompting.
 #>
 
 [CmdletBinding(SupportsShouldProcess)]
@@ -61,6 +61,39 @@ function Test-Administrator {
     $currentUser = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = New-Object Security.Principal.WindowsPrincipal($currentUser)
     return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
+# Check if Teams version is older than 1.7x
+function Test-TeamsVersionOlderThan17 {
+    param(
+        [string]$VersionString
+    )
+    
+    if ([string]::IsNullOrEmpty($VersionString) -or $VersionString -eq "Unknown") {
+        # If we can't determine version, assume it's old and should be removed
+        return $true
+    }
+    
+    try {
+        # Parse version string (e.g., "1.8.00.21151" or "1.6.00.12345")
+        $versionParts = $VersionString.Split('.')
+        if ($versionParts.Length -ge 2) {
+            $majorVersion = [int]$versionParts[0]
+            $minorVersion = [int]$versionParts[1]
+            
+            # Check if version is older than 1.7
+            if ($majorVersion -lt 1 -or ($majorVersion -eq 1 -and $minorVersion -lt 7)) {
+                return $true
+            }
+        }
+        
+        return $false
+    }
+    catch {
+        # If version parsing fails, assume it's old and should be removed
+        Write-Log "Could not parse version '$VersionString', assuming it's old" "WARN"
+        return $true
+    }
 }
 
 # Get Teams installation paths for a specific user
@@ -97,11 +130,19 @@ function Get-TeamsInstallations {
                 }
             }
             
-            $installations += [PSCustomObject]@{
-                Path = $path
-                Version = $version
-                ExePath = $exePath
-                Type = if ($path -like "*Update.exe") { "Updater" } else { "Application" }
+            # Only include installations that are older than 1.7x
+            $isOldVersion = Test-TeamsVersionOlderThan17 -VersionString $version
+            
+            if ($isOldVersion) {
+                $installations += [PSCustomObject]@{
+                    Path = $path
+                    Version = $version
+                    ExePath = $exePath
+                    Type = if ($path -like "*Update.exe") { "Updater" } else { "Application" }
+                    IsOldVersion = $true
+                }
+            } else {
+                Write-Log "Skipping Teams installation (Version $version is 1.7x or newer): $path" "INFO"
             }
         }
     }
@@ -171,6 +212,7 @@ function Remove-TeamsInstallation {
 
 # Main execution
 Write-Log "Starting Teams uninstaller script" "INFO"
+Write-Log "Target: Teams versions older than 1.7x" "INFO"
 Write-Log "Log file: $LogPath" "INFO"
 
 # Check if running as administrator

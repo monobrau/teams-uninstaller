@@ -4,10 +4,11 @@ A PowerShell script designed to uninstall older versions of Microsoft Teams from
 
 ## Overview
 
-This script helps system administrators clean up older versions of Microsoft Teams that may be installed in user profiles. It can target specific user profiles or process all user profiles on the system.
+This script helps system administrators clean up Microsoft Teams versions older than 1.7x that may be installed in user profiles. It can target specific user profiles or process all user profiles on the system. Teams versions 1.7x and newer are preserved.
 
 ## Features
 
+- **Version Filtering**: Only removes Teams versions older than 1.7x
 - **Comprehensive Detection**: Finds Teams installations in various user profile locations
 - **Version Identification**: Attempts to identify installed Teams versions
 - **Process Management**: Stops running Teams processes before removal
@@ -91,14 +92,30 @@ pause
 | `WhatIf` | Switch | No | Show what would be done without executing |
 | `LogPath` | String | No | Custom log file path (default: timestamped file) |
 
+## Version Filtering
+
+The script only removes Teams versions **older than 1.7x**:
+
+- ✅ **Removes**: Teams 1.6.x and older
+- ✅ **Removes**: Teams with unknown/unreadable versions (assumes old)
+- ❌ **Preserves**: Teams 1.7.x and newer
+- ❌ **Preserves**: Teams 2.x and newer
+
+### Version Examples:
+- `1.8.00.21151` → **Preserved** (1.7x or newer)
+- `1.6.00.12345` → **Removed** (older than 1.7x)
+- `1.7.00.98765` → **Preserved** (1.7x or newer)
+- `Unknown` → **Removed** (assumes old)
+
 ## What the Script Does
 
 1. **Scans** user profile directories for Teams installations
 2. **Identifies** Teams versions where possible
-3. **Stops** running Teams processes
-4. **Removes** Teams directories and files
-5. **Cleans** registry entries
-6. **Logs** all operations with timestamps
+3. **Filters** by version (only processes versions older than 1.7x)
+4. **Stops** running Teams processes
+5. **Removes** Teams directories and files
+6. **Cleans** registry entries
+7. **Logs** all operations with timestamps
 
 ## Installation Locations Scanned
 
